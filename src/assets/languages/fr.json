@@ -1,0 +1,19 @@
+{
+    "rules": "Règles du jeu:\n> Pour gagner, alignez quatre pions soit en ligne, colonne, diagonale, ou en carré.\n> Jouez uniquement sur des cartes partageant une couleur avec la carte défaussée précédemment.\n> Les quatre cases centrales sont bloquées au premier tour.",
+    "menu_play": "Jouer",
+    "menu_rules": "Règles",
+    "menu_mode_1_player": "1 Joueur",
+    "menu_mode_2_players": "2 Joueurs",
+    "rules_explanation": "Ce jeu ....",
+    "ui_player_1": "Joueur 1",
+    "ui_player_2": "Joueur 2",
+    "ui_bot": "Bot",
+    "victory_message": "Victoire!",
+    "defeat_message": "Defaite...",
+    "draw_message": "Égalité",
+    "info_first_turn": "Vous ne pouvez pas placer un jeton au \nmilieu lors du premier tour",
+    "info_occupied": "La case est déjà occupée !",
+    "info_no_color_share": "La carte ne partage aucune couleur avec \nla dernière carte défaussée !",
+    "cannot_play_message": "Vous ne pouvez pas jouer.",
+    "opponent_cannot_play_message": "L'adversaire ne peut pas jouer."
+}

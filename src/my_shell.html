@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>drop4</title>
+    <link rel="icon" type="image/png" href="./game_icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./game_icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./game_icon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./game_icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./game_icon.png">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(60, 60, 60);
+        }
+        #canvas {
+            border: none;
+            border-radius: none;
+        }
+    </style>
+</head>
+<body id="body">
+    <canvas id="canvas"></canvas>
+    {{{ SCRIPT }}}
+    <script>
+        let is_mobile;
+        
+        // Initialize module
+        var Module = {
+            preRun: [],
+            postRun: [],
+            canvas: (function() {
+                var canvas = document.getElementById('canvas');
+                return canvas;
+            })(),
+            onRuntimeInitialized: function() {
+                console.log("WebAssembly module loaded and initialized.");
+                window.addEventListener('resize', resizeCanvas);
+                if (/Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    is_mobile = 1;
+                    console.log("Running on mobile")
+                }
+                else {
+                    console.log("Running on desktop")
+                }
+
+                setTimeout(resizeCanvas, 100);
+            }
+        };
+
+        function resizeCanvas() {
+            var canvas = document.getElementById('canvas');
+            const aspectRatio = 460 / 812;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const windowAspectRatio = windowWidth / windowHeight;
+            var canvaWidth;
+            var canvaHeight;
+
+            if (is_mobile) {
+                if (windowAspectRatio > aspectRatio) {
+                    canvaWidth = windowHeight * aspectRatio;
+                    canvaHeight = windowHeight
+                } else {
+                    canvaWidth = windowWidth;
+                    canvaHeight = windowWidth / aspectRatio
+                }
+            } 
+            else {
+                canvaHeight = windowHeight * 0.75;
+                canvaWidth = canvaHeight * aspectRatio;
+                canvas.style.border = "6px solid black";
+                canvas.style.borderRadius = "15px";
+                document.getElementById('body').style.backgroundColor = "rgb(70, 70, 70)";
+            }
+
+            canvas.style.width = canvaWidth + 'px';
+            canvas.style.height = canvaHeight + 'px';
+
+            // Pass the new canvas size to the C code
+            Module.ccall('update_canvas_size', 'void', ['number', 'number'], [canvaWidth, canvaHeight]);
+            Module.ccall('set_device_type', 'void', ['number'], [is_mobile]);
+        }
+    </script>
+</body>
+</html>
